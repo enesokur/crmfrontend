@@ -1,0 +1,350 @@
+<fieldset class="customer-create border border-dark">
+  <legend class="ms-4 px-2">Create Customer:</legend>
+
+  <div class="h-75">
+    <div *ngIf="addressesToShow.length < 2">
+      <form [formGroup]="form2">
+        <h2 class="customer-create-header">Address Info</h2>
+        <div class="d-flex justify-content-around mx-auto">
+          <div *ngFor="let item of addressesToShow" class="box-upper">
+            <div class="box">
+              <div class="d-flex justify-content-between mt-2 ms-2 me-2">
+                <app-input
+                  class="d-flex flex-row-reverse"
+                  type="radio"
+                  inputId="radio"
+                  [control]="form2.get('selectedAddress')"
+                  >Select as a primary address</app-input
+                >
+                <div>
+                  <img
+                    class="me-3"
+                    src="../../../../../assets/images/address-feature/addresspenicon.png"
+                    width="22"
+                    height="22"
+                  />
+                  <img
+                    class="me-3"
+                    src="../../../../../assets/images/address-feature/addresstrashicon.png"
+                    width="22"
+                    height="22"
+                  />
+                </div>
+              </div>
+              <div class="box-content d-flex justify-content-center">
+                {{ item.countryName }}, {{ item.cityName }},
+                {{ item.districtName }}, {{ item.neighbourhood }},
+                {{ item.street }},<br />
+                {{ item.houseNumber }}<br />
+                {{ item.description }}
+              </div>
+            </div>
+          </div>
+          <div class="box-upper">
+            <div
+              class="box d-flex justify-content-center align-items-center align-self-end"
+            >
+              <button
+                type="button"
+                class="b-add-address"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                Add New Address
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template [ngIf]="addressesToShow">
+      <div *ngIf="addressesToShow.length >= 2">
+        <form [formGroup]="form2">
+          <div class="d-flex mt-4">
+            <h2 class="customer-header ms-4 me-4">Address Info</h2>
+            <button
+              class="b-add-address2"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Add new Address
+            </button>
+          </div>
+          <div class="row-height">
+            <div
+              *ngFor="let item of [].constructor(outerLoop); let i = index"
+              class="d-flex justify-content-around mx-auto mt-3"
+            >
+              <div *ngFor="let item2 of this.addressesToShow.slice(2*(i+1)-2,2*(i+1))" class="box-upper">
+                <div class="box">
+                  <div class="d-flex justify-content-between mt-2 ms-2 me-2">
+                    <app-input
+                      class="d-flex flex-row-reverse"
+                      type="radio"
+                      inputId="radio"
+                      [control]="form2.get('selectedAddress')"
+                      >Select as a primary address</app-input
+                    >
+                    <div>
+                      <img
+                        class="me-3"
+                        src="../../../../../assets/images/address-feature/addresspenicon.png"
+                        width="22"
+                        height="22"
+                      />
+                      <img
+                        class="me-3"
+                        src="../../../../../assets/images/address-feature/addresstrashicon.png"
+                        width="22"
+                        height="22"
+                      />
+                    </div>
+                  </div>
+                  <div class="box-content d-flex justify-content-center">
+                    {{ item2.countryName }}, {{ item2.cityName }},
+                    {{ item2.districtName }}, {{ item2.neighbourhood }},
+                    {{ item2.street }},<br />
+                    {{ item2.houseNumber }}<br />
+                    {{ item2.description }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </div>
+  <div class="create-customer-button-section">
+    <app-button
+      type="button"
+      buttonClasses="general-button"
+      class=""
+      (click)="goPrevious()"
+      >Previous</app-button
+    >
+    <app-button
+      [routerLink]="['/home/contact-medium-create']"
+      type="button"
+      buttonClasses="general-button"
+      class=""
+      (click)="goNext()"
+      [disabled]="addressesToShow.length < 1"
+      >Next</app-button
+    >
+  </div>
+</fieldset>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <form (submit)="onFormSubmit()" [formGroup]="form" class="h-100">
+        <div class="modal-body">
+          <div class="address-modal-inputs">
+            <div class="form-column">
+              <div
+                class="d-flex align-items-center justify-content-evenly mt-3 w-100"
+              >
+                <label class="text-start w-25" for="country">Country *</label
+                ><select
+                  class="customer-create-input"
+                  id="country"
+                  formControlName="country"
+                  (change)="chooseCountry()"
+                >
+                  <option
+                    *ngFor="let option of countryOptions"
+                    [value]="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
+                </select>
+              </div>
+              <div
+                class="mt-3"
+                *ngIf="
+                  form.controls['country'].errors !== null &&
+                  form.get('country')?.touched
+                "
+              >
+                <p class="text-danger fw-bold">
+                  {{ form.get("country")?.errors | errorMessages }}
+                </p>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-evenly mt-3 w-100"
+              >
+                <label class="text-start w-25" for="district">District *</label
+                ><select
+                  class="customer-create-input"
+                  id="district"
+                  formControlName="district"
+                >
+                  <option
+                    *ngFor="let option of districtOptions"
+                    [value]="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
+                </select>
+              </div>
+              <div
+                class="mt-3"
+                *ngIf="
+                  form.controls['district'].errors !== null &&
+                  form.get('district')?.touched
+                "
+              >
+                <p class="text-danger fw-bold">
+                  {{ form.get("district")?.errors | errorMessages }}
+                </p>
+              </div>
+              <app-input
+                inputId="street"
+                class="d-flex align-items-center justify-content-evenly mt-3 w-100"
+                inputClasses="form-control address-modal-input"
+                labelClasses="text-start w-25"
+                type="text"
+                placeholder=""
+                [required]="true"
+                [control]="form.get('street')"
+              >
+                Street
+              </app-input>
+              <div
+                class="mt-3"
+                *ngIf="
+                  form.controls['street'].errors !== null &&
+                  form.get('street')?.touched
+                "
+              >
+                <p class="text-danger fw-bold">
+                  {{ form.get("street")?.errors | errorMessages }}
+                </p>
+              </div>
+            </div>
+            <div class="form-column">
+              <div
+                class="d-flex align-items-center justify-content-evenly mt-3 w-100"
+              >
+                <label class="text-start address-modal-label" for="city"
+                  >City *</label
+                ><select
+                  class="customer-create-input"
+                  id="city"
+                  formControlName="city"
+                  (change)="chooseCity()"
+                >
+                  <option
+                    *ngFor="let option of cityOptions"
+                    [value]="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
+                </select>
+              </div>
+              <div
+                class="mt-3"
+                *ngIf="
+                  form.controls['city'].errors !== null &&
+                  form.get('city')?.touched
+                "
+              >
+                <p class="text-danger fw-bold">
+                  {{ form.get("city")?.errors | errorMessages }}
+                </p>
+              </div>
+              <app-input
+                inputId="neighbourhood"
+                class="d-flex align-items-center justify-content-evenly mt-3 w-100"
+                inputClasses="form-control address-modal-input"
+                labelClasses="text-start address-modal-label"
+                type="text"
+                placeholder=""
+                [required]="true"
+                [control]="form.get('neighbourhood')"
+              >
+                Neighbourhood
+              </app-input>
+              <div
+                class="mt-3"
+                *ngIf="
+                  form.controls['neighbourhood'].errors !== null &&
+                  form.get('neighbourhood')?.touched
+                "
+              >
+                <p class="text-danger fw-bold">
+                  {{ form.get("neighbourhood")?.errors | errorMessages }}
+                </p>
+              </div>
+              <app-input
+                inputId="houseNumber"
+                class="d-flex align-items-center justify-content-evenly mt-3 w-100"
+                inputClasses="form-control address-modal-input"
+                labelClasses="text-start address-modal-label"
+                type="text"
+                placeholder=""
+                [required]="true"
+                [control]="form.get('houseNumber')"
+              >
+                House/Flat Number
+              </app-input>
+              <div
+                class="mt-3"
+                *ngIf="
+                  form.controls['houseNumber'].errors !== null &&
+                  form.get('houseNumber')?.touched
+                "
+              >
+                <p class="text-danger fw-bold">
+                  {{ form.get("houseNumber")?.errors | errorMessages }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="customer-address-textarea mx-auto mt-3">
+            <label for="address-description">Address Description*</label>
+            <textarea
+              id="address-description"
+              class="w-100 mt-2"
+              rows="5"
+              formControlName="description"
+            >
+            </textarea>
+            <div
+              class="mt-3"
+              *ngIf="
+                form.controls['description'].errors !== null &&
+                form.get('description')?.touched
+              "
+            >
+              <p class="text-danger fw-bold">
+                {{ form.get("description")?.errors | errorMessages }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-evenly">
+          <button type="button" class="b-popup" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button
+            [disabled]="form.invalid"
+            type="submit"
+            class="b-popup"
+            data-bs-dismiss="modal"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

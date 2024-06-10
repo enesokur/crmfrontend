@@ -1,0 +1,67 @@
+.search-customer {
+  background-color: #fff;
+  width: 80vw;
+  height: 96%;
+
+  .search-filter {
+    width: 25%;
+    height: 95%;
+
+    .buttons {
+      width: 80%;
+    }
+
+    .search-customer-input {
+      width: 90%;
+    }
+  }
+
+  .search-result {
+    width: 72%;
+    height: 95%;
+  }
+}
+
+.search-result-table {
+  width: 95%;
+  height: 95%;
+
+  tr {
+    td {
+      background-color: #ffcea6;
+      text-align: center;
+    }
+  }
+}
+
+.customer-not-found-header {
+  width: 16rem;
+}
+
+.paginate-nav {
+  padding-left: 73%;
+
+  ul {
+    li {
+      cursor: pointer;
+      padding-right: 5px;
+      a {
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        color: black;
+        background: #d9d9d9;
+        user-select: none;
+      }
+
+      .page-number {
+        border-radius: 20%;
+      }
+    }
+    li.active {
+      a {
+        background: #afafaf;
+      }
+    }
+  }
+}

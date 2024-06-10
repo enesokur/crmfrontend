@@ -1,0 +1,118 @@
+<fieldset class="customer-create border border-dark">
+  <legend class="ms-4 px-2">Create Customer:</legend>
+  <form (submit)="onFormSubmit()" [formGroup]="form" class="h-100">
+    <div class="h-75">
+      <h2 class="customer-create-header">Contact Medium</h2>
+      <div class="content">
+        <div class="content-column justify-content-evenly h-50 my-auto">
+          <app-input
+            inputId="contact-medium-create-email"
+            class="d-flex w-100 justify-content-between mt-4 align-items-center"
+            type="email"
+            placeholder=""
+            inputClasses="form-control customer-create-input"
+            labelClasses="customer-create-label text-end me-4 text-dark mb-2 fw-bolder text-xl"
+            [required]="true"
+            [control]="form.get('email')"
+          >
+            Email
+          </app-input>
+          <div
+            class="mt-3"
+            *ngIf="
+              form.controls['email'].errors !== null &&
+              form.get('email')?.touched
+            "
+          >
+            <p class="text-danger fw-bold">
+              {{ form.get("email")?.errors | errorMessages }}
+            </p>
+          </div>
+          <app-input
+            inputId="contact-medium-create-home-phone"
+            class="d-flex w-100 justify-content-between mt-4 align-items-center"
+            type="number"
+            placeholder=""
+            inputClasses="form-control customer-create-input"
+            labelClasses="customer-create-label text-end me-4 text-dark mb-2 fw-bolder text-xl"
+            [control]="form.get('homePhone')"
+          >
+            Home Phone
+          </app-input>
+          <div
+            class="mt-3"
+            *ngIf="
+              form.controls['homePhone'].errors !== null &&
+              form.get('homePhone')?.touched
+            "
+          >
+            <p class="text-danger fw-bold">
+              {{ form.get("homePhone")?.errors | errorMessages }}
+            </p>
+          </div>
+        </div>
+        <div class="content-column justify-content-evenly h-50 my-auto">
+          <app-input
+            inputId="contact-medium-create-mobile-phone"
+            class="d-flex w-100 justify-content-between mt-4 align-items-center"
+            type="number"
+            placeholder="(5xx)-xxx-xx-xx"
+            inputClasses="form-control customer-create-input"
+            labelClasses="customer-create-label text-end me-4 text-dark mb-2 fw-bolder text-xl"
+            [required]="true"
+            [control]="form.get('mobilePhone')"
+          >
+            Mobile Phone
+          </app-input>
+          <div
+            class="mt-3"
+            *ngIf="
+              form.controls['mobilePhone'].errors !== null &&
+              form.get('mobilePhone')?.touched
+            "
+          >
+            <p class="text-danger fw-bold">
+              {{ form.get("mobilePhone")?.errors | errorMessages }}
+            </p>
+          </div>
+          <app-input
+            inputId="contact-medium-create-fax"
+            class="d-flex w-100 justify-content-between mt-4 align-items-center"
+            type="number"
+            placeholder=""
+            inputClasses="form-control customer-create-input"
+            labelClasses="customer-create-label text-end me-4 text-dark mb-2 fw-bolder text-xl"
+            [control]="form.get('fax')"
+          >
+            Fax
+          </app-input>
+          <div
+            class="mt-3"
+            *ngIf="
+              form.controls['fax'].errors !== null && form.get('fax')?.touched
+            "
+          >
+            <p class="text-danger fw-bold">
+              {{ form.get("fax")?.errors | errorMessages }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="create-customer-button-section">
+      <app-button
+        (click)="goPrevious()"
+        type="button"
+        buttonClasses="general-button"
+        >Previous
+      </app-button>
+      <app-button
+        [routerLink]=""
+        type="submit"
+        buttonClasses="general-button"
+        [disabled]="form.invalid"
+        >Create
+      </app-button>
+    </div>
+  </form>
+</fieldset>

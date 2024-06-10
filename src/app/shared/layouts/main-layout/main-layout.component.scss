@@ -1,0 +1,13 @@
+.layout {
+  background-image: url("../../../../assets/images/main-layout/main-layout-bg.png");
+}
+
+.content {
+  height: 90.65vh;
+}
+
+@media screen and (max-width: 1750px) {
+  .content {
+    height: 87.8vh;
+  }
+}

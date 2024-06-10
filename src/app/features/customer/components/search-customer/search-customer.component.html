@@ -1,0 +1,213 @@
+<fieldset
+  class="search-customer d-flex justify-content-around align-items-center border border-dark"
+>
+  <legend class="ms-4 px-2">Search Customer:</legend>
+  <fieldset
+    class="search-filter border border-dark d-flex flex-column justify-content-around align-items-center"
+  >
+    <legend class="ms-4 px-2">Search Filter:</legend>
+    <form
+      (submit)="onFormSubmit()"
+      [formGroup]="form"
+      class="h-100 w-100 d-flex flex-column justify-content-around align-items-center"
+    >
+      <app-input
+        inputId="search-customer-id-number"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('nationalityId')"
+        [change]="checkNationalityId()"
+        [maxLength]="30"
+        >Nationality ID</app-input
+      >
+
+      <app-input
+        inputId="search-customer-customer-id-number"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('id')"
+        [change]="checkCustomerId()"
+        [maxLength]="30"
+        >Customer ID</app-input
+      >
+
+      <app-input
+        inputId="search-customer-account-number"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('accountNumber')"
+        [change]="checkAccountNumber()"
+        [maxLength]="30"
+        >Account Number</app-input
+      >
+
+      <app-input
+        inputId="search-customer-gsm-number"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('mobilePhone')"
+        [change]="checkMobilePhone()"
+        [maxLength]="30"
+        >GSM Number</app-input
+      >
+
+      <app-input
+        inputId="search-customer-first-name"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('firstName')"
+        [change]="checkFirstName()"
+        [maxLength]="30"
+        >First Name</app-input
+      >
+
+      <app-input
+        inputId="search-customer-last-name"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('lastName')"
+        [change]="checkLastName()"
+        [maxLength]="30"
+        >Last Name</app-input
+      >
+
+      <app-input
+        inputId="search-customer-order-name"
+        class="d-flex flex-column search-customer-input"
+        type="text"
+        placeholder=""
+        inputClasses="search-customer-input-field"
+        labelClasses="login-screen-label text-dark fw-semibold "
+        [control]="form.get('orderNumber')"
+        [change]="checkOrderNumber()"
+        [maxLength]="30"
+        >Order Number</app-input
+      >
+
+      <div class="buttons d-flex">
+        <app-button
+          type="button"
+          (click)="clear()"
+          buttonClasses="search-customer-button fw-bolder"
+          class="d-flex justify-content-center w-75"
+          >Clear</app-button
+        >
+        <app-button
+          type="submit"
+          buttonClasses="search-customer-button fw-bolder"
+          class="d-flex justify-content-center w-75"
+          [disabled]="stopSubmit"
+          >Search</app-button
+        >
+      </div>
+    </form>
+  </fieldset>
+
+  <fieldset
+    class="search-result border border-dark d-flex flex-column justify-content-around align-items-center"
+  >
+    <legend class="ms-4 px-2">Search Result:</legend>
+    <div
+      class="d-flex align-items-center"
+      *ngIf="customerCount < 1; else notFoundCustomer"
+    >
+      <p class="customer-not-found-header" *ngIf="isFirtstRender">
+        No customer found! Would you like to create the customer?
+      </p>
+      <app-button
+        *ngIf="isFirtstRender"
+        [routerLink]="['/home/create-customer/']"
+        type="button"
+        buttonClasses="search-create-customer-button"
+        >Create Customer</app-button
+      >
+    </div>
+    <ng-template #notFoundCustomer>
+      <app-table
+        [headers]="headers"
+        headerClasses="table-header"
+        class="search-result-table"
+      >
+        <tr *ngFor="let customer of filteredCustomers.items">
+          <td>
+            <a [routerLink]="['/home/customer/' + customer.customerId]">{{
+              customer.customerNumber
+            }}</a>
+          </td>
+          <td>{{ customer.firstName || "-" }}</td>
+          <td>{{ customer.middleName || "-" }}</td>
+          <td>{{ customer.lastName || "-" }}</td>
+          <td>{{ customer.role || "-" }}</td>
+          <td>{{ customer.nationalityId || "-" }}</td>
+        </tr>
+      </app-table>
+      <nav aria-label="Page navigation example" class="w-100 paginate-nav">
+        <ul class="pagination">
+          <li class="page-item" *ngIf="hasPrevious; else disabledPrevious">
+            <a class="page-link" (click)="goToPreviousPage()">Previous</a>
+          </li>
+          <ng-template #disabledPrevious>
+            <li class="page-item disabled">
+              <a class="page-link">Previous</a>
+            </li>
+          </ng-template>
+          <li
+            (click)="goToPage(activePage - 1)"
+            class="page-item"
+            [ngClass]="{ active: isActivePage(activePage - 1) }"
+            *ngIf="activePage > 1"
+          >
+            <a class="page-link page-number">{{ activePage - 1 }}</a>
+          </li>
+          <li
+            (click)="goToPage(activePage)"
+            class="page-item"
+            [ngClass]="{ active: isActivePage(activePage) }"
+          >
+            <a class="page-link page-number">{{ activePage }}</a>
+          </li>
+          <li
+            (click)="goToPage(activePage + 1)"
+            class="page-item"
+            [ngClass]="{ active: isActivePage(activePage + 1) }"
+          >
+            <a class="page-link page-number" *ngIf="activePage < totalPage">{{
+              activePage + 1
+            }}</a>
+          </li>
+          <li class="page-item">
+            <a
+              class="page-link"
+              (click)="goToNextPage()"
+              *ngIf="hasNext; else disabledNext"
+              >Next</a
+            >
+          </li>
+          <ng-template #disabledNext>
+            <li class="page-item disabled">
+              <a class="page-link">Next</a>
+            </li>
+          </ng-template>
+        </ul>
+      </nav>
+    </ng-template>
+  </fieldset>
+</fieldset>

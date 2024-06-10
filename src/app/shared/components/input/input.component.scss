@@ -1,0 +1,81 @@
+.login-screen-label {
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+}
+
+.search-customer-input-field {
+  background-color: rgba(217, 217, 217, 0.45);
+}
+
+.remember-me {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.customer-create-label {
+  width: 27%;
+}
+
+.customer-info-update-input,
+.customer-create-input {
+  width: 70%;
+  background-color: #ffcda4;
+  border: 1px solid black;
+}
+
+.customer-info-update-column {
+  .required {
+    color: #000;
+    font-weight: 900;
+  }
+}
+
+.login-form {
+  .required {
+    color: #f38022;
+  }
+}
+
+.contact-medium-update-input,
+.contact-medium-create-input {
+  background-color: #ffcda4;
+}
+
+.product-config-input {
+  width: 20rem;
+  height: 1.25rem;
+  border: 1px solid black;
+}
+
+.product-config-label {
+  width: 10rem;
+  font-family: "Inter" sans-serif;
+  font-weight: 400;
+  size: 0.9rem;
+}
+
+.product-config-radio-button {
+  font-size: 0.9rem;
+}
+
+.input-background {
+  background-color: #ffcda4;
+}
+.address-modal-input {
+  width: 60%;
+}
+
+.address-modal-label {
+  width: 35%;
+}
+
+.create-billing-account-label {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  width: 16%;
+}
+
+.create-billing-account-input {
+  background-color: #ffcda4;
+}
